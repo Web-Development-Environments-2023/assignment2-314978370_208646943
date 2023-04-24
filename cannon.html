@@ -103,7 +103,7 @@
 		<input type="text" class="form" id="username" name="username"  required><br><br>
 
 		<label>Password:</label>
-		<input type="password" class="form" id="password" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z\d]{2,40}$" title="a string that contains at least one English letter, one digit, and is 8 characters long" required><br><br>
+		<input type="password" class="form" id="password" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z\d]{6,40}$" title="a string that contains at least one English letter, one digit, and is 8 characters long" required><br><br>
 
 		<label>Confirm Password:</label>
 		<input type="password" class="form" id="password_validation" name="password_validation" required><br><br>
@@ -119,7 +119,7 @@
 		<input type="email" class="form" id="email" name="email" pattern="^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}(\.[\w-]{2,4})?$" title="Please enter valid email pattern" required><br><br>
 
 		<label>Date of Birth:</label>
-		<input type="date" class="form" id="date_of_birth" name="date_of_birth" required><br><br>
+		<input type="date" class="form" id="date_of_birth" name="date_of_birth" style="height: 60; width: 150;" required><br><br>
 
 		<input type="submit" id = "submit" class="form" value="Submit">
 	</form>
@@ -132,12 +132,42 @@
       <div id="configuration">
          <h3>configuration</h3>
          <form id="configuration-form">
-            <label> choose your shooting key</label>
-            <input type="text" id="shootingkey" pattern="{1}" class="form" title="only one key" required>
+            <input type="button" id="shootingkey"  class="form" value="Choose a shooting key" required>
+            <script>
+               $(document).ready(function() {
+                  $("#shootingkey").click(function()
+                  {
+                     $("#dialog").show();
+                     document.addEventListener('keydown', ChooseKey);
+                     
+                     
+                  });
+                  
+                     
+                  });
+
+               function ChooseKey()
+               {
+                  shooting_key_chose = event.key;
+                     $("#dialog").hide();
+                     document.removeEventListener('keydown',ChooseKey);
+                     chose_key_bool = true;
+                     alert("the key " + shooting_key_chose + " has been chosen");
+               }
+            </script>
             <label> game time(in seconds, minimum 120)</label>
             <input type="number" id="time" class="form" required>
             <input type="submit" id="configbtn" class="form" value="submit">
          </form>
+         <section id="dialog" class="web_dialog" style="display: none; width: 42%; padding-top: 20px; padding-bottom: 20px; background-color: rgb(251, 126, 147); text-align: center; border: 1px; ">
+            
+            <br>
+            <table style="width: 100%; border: 1px; " cellpadding="3" cellspacing="0">
+               <tr>
+                  <td><b>Choose a shooting KEY</b></td>
+               </tr>
+         
+            </table>
       </div>
       <div id="game">
       <audio id = "blockerSound" preload = "auto">

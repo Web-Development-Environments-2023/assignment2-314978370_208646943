@@ -106,14 +106,14 @@ function setupGame()
 // set up interval timer to update game
 function startTimer()
 {
-   canvas.addEventListener( "click", fireCannonball, false );
+   document.addEventListener( "keydown", fireCannonball, false );
    intervalTimer = window.setInterval( updatePositions, TIME_INTERVAL );
 } // end function startTimer
 
 // terminate interval timer
 function stopTimer()
 {
-   canvas.removeEventListener( "click", fireCannonball, false );
+   document.removeEventListener( "keydown", fireCannonball, false );
    window.clearInterval( intervalTimer );
 } // end function stopTimer
 
@@ -172,7 +172,7 @@ function newGame()
    targetPiecesHit = 0; // no target pieces have been hit
    blockerVelocity = initialBlockerVelocity; // set initial velocity
    targetVelocity = initialTargetVelocity; // set initial velocity
-   timeLeft = 10; // start the countdown at 10 seconds
+   timeLeft = amountOfTime; // start the countdown at 10 seconds
    timerCount = 0; // the timer has fired 0 times so far
    cannonballOnScreen = false; // the cannonball is not on the screen
    shotsFired = 0; // set the initial number of shots fired
@@ -290,7 +290,8 @@ function updatePositions()
 // fires a cannonball
 function fireCannonball(event)
 {
-   if (cannonballOnScreen) // if a cannonball is already on the screen
+   debugger;
+   if (cannonballOnScreen || event.key != shooting_key_chose) // if a cannonball is already on the screen
       return; // do nothing
 
    var angle = alignCannon(event); // get the cannon barrel's angle

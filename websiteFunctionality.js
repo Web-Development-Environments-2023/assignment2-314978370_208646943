@@ -1,9 +1,12 @@
-var DB = ['p','testuser'];
+var DB = [['p','testuser']];
+var key_chose_bool = false;
+var shooting_key_chose;
+var amountOfTime;
 function setupFunctions()
 {
     
-    login_layout = document.getElementById("login");
-  register_layout = document.getElementById("register");
+   login_layout = document.getElementById("login");
+   register_layout = document.getElementById("register");
    // EVENT LISTENERS FOR BUTTONS **********************
    document.getElementById( "startButton" ).addEventListener( 
       "click", newGame, false );
@@ -80,12 +83,13 @@ $(document).ready(function() {
     var user_log = $("#username-login").val();
     var password_log = $("#password-login").val();
     for(let i =0; i< DB.length; i++){
-        debugger;
         if(user_log === DB[i][0] && password_log === DB[i][1])
         {
+            
             alert("Logged-in successfully");
             game_layout = document.getElementById("game");
-            switch_div(game_layout);
+            config_layout = document.getElementById("configuration");
+            switch_div(config_layout);
             return true;
         }
     }
@@ -95,5 +99,19 @@ $(document).ready(function() {
 
  //***************** CONFIGURATION */
  
+   $("#configuration-form").submit(function(e) {
+      e.preventDefault();
+      var time_chose = $("#time").val();
+      if( time_chose< 120 || chose_key_bool === false)
+      {
+         alert("minimum time in seconds: 120 OR key hasn't been chosen");
+         return false;
+      }
+      amountOfTime  = time_chose;
+      switch_div(game_layout);
+      return true;
+
+   
+});
 });
 window.addEventListener("load", setupFunctions, false);
