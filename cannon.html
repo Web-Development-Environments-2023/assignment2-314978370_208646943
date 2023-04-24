@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<!-- Fig. 14.26: cannon.html -->
+<!-- Cannon Game HTML5 document. -->
+<html>
+   <head>
+      <meta charset = "utf-8">
+      <title>Cannon Game</title>
+      <style type = "text/css">
+         canvas { border: 1px solid black; }
+      </style>
+      <link rel="stylesheet" type="text/css" href="style.css" />
+      <script src="jquery-1.10.2.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	   <script src = "cannon.js"></script>
+      <script src = "websiteFunctionality.js"></script>
+      <script>
+         
+      </script>
+   </head>
+   <body style="background-image: url('bg-image.jpeg'); background-repeat: no-repeat; background-size: cover;" >
+
+      <section style="height: 210px; width: 100%;">
+      <header id="menu" >
+         <table id ="headertable" cellpadding="5" align="left" width="100%" >
+           <tr>
+             <td width = "20%"><img src="logo.jpg" width=70% height=auto></td>
+             <td width = "80%"> <h3>Cannon eggs</h3> </td>
+             
+           </tr>
+           <tr>
+            <td>
+               <input id = "loginbtn2" class="button" type = "button" value = "Login">
+            </td>
+            <td><input id = "registerbtn2" class="button" type = "button" value = "Register"></td>
+            <td><input id = "aboutbtn" class = "button" type="button" value="About"></td>
+           </tr>
+         </table>
+        
+       </header>
+      </section>
+       <main >
+      <section style="width: 100%; ">
+      <div id="welcome" style="display: block;">
+         <h3>Yoad <span class="mn" >(EggMadness)</span> Ben david, 208646943</br>shay <span class="mn">(The Canoneer)</span> milner, 314978370</h3>
+         <table  style=" margin: auto; text-align: center;" cellpadding="5" align="center" width="70%"  >
+            <tr>
+              <td ><input id = "loginbtn1" class="button" type = "button" value = "login"></td>
+              <td > <input id = "registerbtn1" class="button" type = "button" value = "register"></td>
+              
+            </tr>
+      
+   </table>
+   
+      </div>
+      <div id = "login" style=" background-image: url('login-image.webp'); background-repeat: no-repeat; background-size:contain; background-position:top;  text-align: center;" >
+
+         <br>
+         <br>
+         <br>
+         <br>
+         <br> 
+         <br>
+         <br>
+         <br> 
+         <br>
+         <br>
+         <br>
+         <br> 
+         <br>
+         <br>
+         <br>
+         <br> 
+         <br>
+         <form id="login-form" >
+      
+            <label>Username:</label>
+            <input type="text" class="form" id="username-login" name="username"  required><br><br>
+      
+            <label>Password:</label>
+            <input type="password" class="form" id="password-login" name="password"  required><br><br>
+            <input type="submit" id = "login-validation" class="form" value="LOG-IN">
+         </form>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br> 
+         <br>
+      </div>
+      <div id = "register" style="background-image: url('egg4.png'); background-repeat: no-repeat; background-size: cover; background-position: center; width: 50%; text-align: center; margin: 0 auto;">
+      
+   
+         <br>
+         <br>
+         <br>
+         <br> 
+         <br>
+         <h3>Registration Form</h3>
+	<form id="registration-form">
+      
+		<label>Username:</label>
+		<input type="text" class="form" id="username" name="username"  required><br><br>
+
+		<label>Password:</label>
+		<input type="password" class="form" id="password" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z\d]{2,40}$" title="a string that contains at least one English letter, one digit, and is 8 characters long" required><br><br>
+
+		<label>Confirm Password:</label>
+		<input type="password" class="form" id="password_validation" name="password_validation" required><br><br>
+      
+
+		<label>Name:</label>
+		<input type="text" class="form" id="name" name="name" pattern="^[a-zA-Z]+$" title="Please enter only English letters" required><br><br>
+
+		<label>Last Name:</label>
+		<input type="text" class="form" id="last_name" name="last_name" pattern="^[a-zA-Z]+$" title="Please enter only English letters" required><br><br>
+
+		<label>Email:</label>
+		<input type="email" class="form" id="email" name="email" pattern="^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}(\.[\w-]{2,4})?$" title="Please enter valid email pattern" required><br><br>
+
+		<label>Date of Birth:</label>
+		<input type="date" class="form" id="date_of_birth" name="date_of_birth" required><br><br>
+
+		<input type="submit" id = "submit" class="form" value="Submit">
+	</form>
+   <br>
+         <br>
+         <br>
+         <br> 
+         <br>
+      </div>
+      <div id="configuration">
+         <h3>configuration</h3>
+         <form id="configuration-form">
+            <label> choose your shooting key</label>
+            <input type="text" id="shootingkey" pattern="{1}" class="form" title="only one key" required>
+            <label> game time(in seconds, minimum 120)</label>
+            <input type="number" id="time" class="form" required>
+            <input type="submit" id="configbtn" class="form" value="submit">
+         </form>
+      </div>
+      <div id="game">
+      <audio id = "blockerSound" preload = "auto">
+         <source src = "blocker_hit.ogg" type = "audio/ogg"></audio>
+      <audio id = "targetSound" preload = "auto">
+         <source src = "target_hit.ogg" type = "audio/ogg"></audio>
+      <audio id = "cannonSound" preload = "auto">
+         <source src = "cannon_fire.ogg" type = "audio/ogg"></audio>
+      <canvas id = "theCanvas" width = "480" height = "600"></canvas> 
+      <p><input id = "startButton" class="button" type = "button" value = "Start Game">
+      </p></div>
+   </section>
+   </main>
+   </body>
+</html>
+
+<!--
+**************************************************************************
+* (C) Copyright 1992-2012 by Deitel & Associates, Inc. and               *
+* Pearson Education, Inc. All Rights Reserved.                           *
+*                                                                        *
+* DISCLAIMER: The authors and publisher of this book have used their     *
+* best efforts in preparing the book. These efforts include the          *
+* development, research, and testing of the theories and programs        *
+* to determine their effectiveness. The authors and publisher make       *
+* no warranty of any kind, expressed or implied, with regard to these    *
+* programs or to the documentation contained in these books. The authors *
+* and publisher shall not be liable in any event for incidental or       *
+* consequential damages in connection with, or arising out of, the       *
+* furnishing, performance, or use of these programs.                     *
+**************************************************************************
+-->

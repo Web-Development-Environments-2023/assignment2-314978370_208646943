@@ -1,0 +1,60 @@
+#headertable {
+    background-image: linear-gradient(to bottom right, #F9D423, #FFA712);
+
+  }
+  
+h3 {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    color: #3c3838;
+    text-transform: uppercase;
+    background-color: #F7DC6F;
+    border: 1px solid #BFBFBF;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 2px 5px #BFBFBF;
+  }
+  .button{
+    height: 50px;
+    width: 150px;
+    background-image: linear-gradient(to bottom right, #F9D423, #FFA712);
+    text-transform: uppercase;
+  }
+  .form{
+    height: 30px;
+    width: 90px;
+    background-image: linear-gradient(to bottom right, #F9D423, #FFA712);
+  }
+  label{
+    color: #3c3838;
+    font-size: 20px;
+  }
+  #registration-form{
+    border: #3c3838;
+    border-width: 3px;
+    
+  }
+  
+  div
+  {
+   display: none;
+   
+  }
+  
+ 
+  
+  .mn
+  {
+    color: #1f78b4;
+    text-transform: initial;
+  }
+  label
+  {
+    border: #615b5b;
+    padding: 0.7%;
+    background-image: linear-gradient(to bottom right, #302e23, #f5cb82);
+    color: #BFBFBF;
+  }
+  
+  
