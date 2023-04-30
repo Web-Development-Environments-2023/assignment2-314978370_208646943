@@ -1,60 +1,90 @@
-#headertable {
-    background-image: linear-gradient(to bottom right, #F9D423, #FFA712);
+@font-face {
+  font-family: 'Magic School One';
+  src: url('font/MagicSchoolOne.ttf');
+}
 
-  }
+
+html{
+  text-align: center;
+  font-family: 'Magic School One';
+  background-image: url(images/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: whitesmoke;
+}
+
+div{
+  display: inline-block;
+}
+
+canvas{
+  margin-top: 25px;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 92px;
+  text-align: center;
+  padding-top: 20px;
+  background-image: linear-gradient(to bottom right, #000000, #02003f);
+}
+
+#header img{
+  padding-left: 2%;
+  float: left;
+  max-height: 92px;
+  max-width: 92px;
   
-h3 {
-    font-size: 36px;
-    font-weight: bold;
-    text-align: center;
-    color: #3c3838;
-    text-transform: uppercase;
-    background-color: #F7DC6F;
-    border: 1px solid #BFBFBF;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0px 2px 5px #BFBFBF;
-  }
-  .button{
-    height: 50px;
-    width: 150px;
-    background-image: linear-gradient(to bottom right, #F9D423, #FFA712);
-    text-transform: uppercase;
-  }
-  .form{
-    height: 30px;
-    width: 90px;
-    background-image: linear-gradient(to bottom right, #F9D423, #FFA712);
-  }
-  label{
-    color: #3c3838;
-    font-size: 20px;
-  }
+}
+
+#header h1{
+  font-size: auto;
+  position: absolute;
+  top: 0;
+  left: 50vw;
+}
+
+
+
+.content{
+  position: absolute;
+  left: 178px; top: 112px; right: 0; bottom: 0;
+}
+
+.menu
+{
+  height: 100vh;
+  width: 10vw;
+  min-width: fit-content;
+  position: fixed;
+  top: 112px;
+  left: 0;
+  background-image: linear-gradient(to bottom right, #000000, #02003f);
+  overflow-x: hidden; /* Disable horizontal scroll */
+}
+
+.menu a{
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.menu a:hover{
+  background-color: #424242 ;
+  color:#f1f1f1
+}
+
+
   #registration-form{
     border: #3c3838;
     border-width: 3px;
-    
   }
   
-  div
-  {
-   display: none;
-   
-  }
-  
- 
-  
-  .mn
-  {
-    color: #1f78b4;
-    text-transform: initial;
-  }
-  label
-  {
-    border: #615b5b;
-    padding: 0.7%;
-    background-image: linear-gradient(to bottom right, #302e23, #f5cb82);
-    color: #BFBFBF;
-  }
+
   
   

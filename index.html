@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+   <head>
+      <meta charset = "utf-8">
+      <title>Hogwarts Invaders</title>
+      <link rel="icon" type="image/x-icon" href="images/logo.png">
+      <link rel="stylesheet" type="text/css" href="style.css" />
+      <style type = "text/css">
+         canvas { border: 1px solid black; }
+      </style>
+      <script src="scripts/jquery.js"></script>
+	   <script src = "scripts/websiteFunctionality.js"></script>
+      <script src = "scripts/game.js"></script>
+   </head>
+   <body>
+      <div id="header">
+         <img src="images/favicon.png" alt="No Logo">
+         <h1>Hogwarts Invaders</h1>
+      </div>
+
+      <div id="menu1" class="menu">
+         <a href="#">Welcome</a>
+         <a href="#">Signup</a>
+         <a href="#">Login</a>
+         <a href="#">Configuration</a>
+         <a href="#">Play!</a>
+         <a href="#">About Me</a>
+       </div>
+      <div id="welcome" class="content">
+         <button>Signup!</button>
+         <button>Login!</button>
+      </div>
+      <div id="signup" class="content">
+         <form id="registration-form">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password">
+            <label for="password_validation">Validate password:</label><br>
+            <input type="password_validation" id="password_validation" name="password_validation">
+            <label for="name">First name:</label><br>
+            <input type="text" id="name" name="name"><br>
+            <label for="last_name">Last name:</label><br>
+            <input type="text" id="last_name" name="last_name"><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email"><br>
+          </form>
+      </div>
+
+      <audio id = "blockerSound" preload = "auto">
+         <source src = "sounds/blocker_hit.ogg" type = "audio/mpeg"></audio>
+      <audio id = "targetSound" preload = "auto">
+         <source src = "sounds/target_hit.ogg" type = "audio/mpeg"></audio>
+      <audio id = "cannonSound" preload = "auto">
+         <source src = "sounds/cannon_fire.ogg" type = "audio/mpeg"></audio>
+      <div id="canvas" class="content">
+         <canvas id = "theCanvas"></canvas> 
+         <p><input id = "startButton" type = "button" value = "Start Game"></p>
+      </div>
+   </body>
+</html>
+
