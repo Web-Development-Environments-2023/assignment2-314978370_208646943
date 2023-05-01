@@ -6,6 +6,7 @@
 
 html{
   text-align: center;
+  height: 100%;
   font-family: 'Magic School One';
   background-image: url(images/bg.jpg);
   background-repeat: no-repeat;
@@ -18,7 +19,7 @@ div{
 }
 
 canvas{
-  margin-top: 25px;
+  margin-top: 5px;
 }
 
 #header {
@@ -32,6 +33,16 @@ canvas{
   background-image: linear-gradient(to bottom right, #000000, #02003f);
 }
 
+#footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  text-align: center;
+  background-image: linear-gradient(to bottom right, #000000, #02003f);
+}
+
 #header img{
   padding-left: 2%;
   float: left;
@@ -40,6 +51,8 @@ canvas{
   
 }
 
+
+
 #header h1{
   font-size: auto;
   position: absolute;
@@ -47,7 +60,14 @@ canvas{
   left: 50vw;
 }
 
+a{
+  color: whitesmoke;
+}
 
+img{
+  width: 150px;
+  height: auto;
+}
 
 .content{
   position: absolute;
@@ -85,6 +105,8 @@ canvas{
     border-width: 3px;
   }
   
-
   
+  .menu .active {
+    color: gold;
+  }
   

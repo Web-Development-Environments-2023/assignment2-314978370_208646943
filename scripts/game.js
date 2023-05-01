@@ -1,108 +1,142 @@
 $(document).ready(function() {
-    // all custom jQuery will go here
-    //$("#register").text("<p>hdfgh</p>");
+
  });
 
 
 var f = new FontFace('Magic School One', 'url(/font/MagicSchoolOne.ttf)');
 var ctx
-var chickens = [];
+var enemies = [];
 var canvas;
 var blasts = [];
 var player
-var chickenBlasts = [];
-var playerImage;
-var chickenImage;
-var blastImg
-var chickenBlastImg
 var timeLeft
+var enemyBlasts = [];
+var playerImage;
+var enemyImage;
+var bgImage;
+var blastImg
+var cur;
+var enemyBlastImage
 var timerInterval
 var score
 var gameover
+var timeout
+var lives = 3;
+var victory
 var initialHeight
 var initialWidth
 var randomIndex;
 var animation;
+var count = 0;
+var bonus = 1;
+var bgMusic;
+var playerDeath;
+var goodBlast;
+var badBlast;
+var enemyDeath;
+
+const keys = {};
+
+
 
 function setup(){
+  
     document.addEventListener( "unload", null, false );
     canvas = document.getElementById( "theCanvas" );
     ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth*0.75;
-    canvas.height = window.innerHeight*0.6;
+    canvas.width = window.innerWidth*0.6;
+    canvas.height = window.innerHeight*0.7;
     initialHeight = canvas.height
     initialWidth = canvas.width
     playerImage = new Image();
-    playerImage.src = 'images/egg.png';
+    playerImage.src = 'images/good_guy.png';
     player = {
         x: canvas.width / 2,
-        y: canvas.height - 30,
-        width: 50,
-        height: 50,
-        speed: 10
+        y: canvas.height - canvas.height*0.25,
+        width: canvas.width*0.2,
+        height: canvas.height*0.25,
+        speed: 5
     }; 
-    chickenImage = new Image();
-    chickenImage.src = 'images/bad_guy.png'; 
+    enemyImage = new Image();
+    enemyImage.src = 'images/bad_guy.png'; 
     blastImage = new Image();
-    blastImage.src = 'images/egg.png';  
-    chickenBlastImage = new Image();
-    chickenBlastImage.src = 'images/egg.png'; 
+    blastImage.src = 'images/good_blast.png';  
+    enemyBlastImage = new Image();
+    enemyBlastImage.src = 'images/bad_blast.png'; 
+    bgImage = new Image();
+    bgImage.src = 'images/gameBg.png'
+    bgMusic = document.getElementById("bgMusic")
+    playerDeath = document.getElementById("playerDeath")
+    goodBlast = document.getElementById("goodBlast")
+    badBlast = document.getElementById("badBlast")
+    enemyDeath = document.getElementById("enemyDeath")
     timerInterval;
     score = 0;
     gameover = false;
-    chickens = []
+    timeout = false;
+    victory = false;
+    enemies = []
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 5; j++) {
-            chickens.push({
-                x: j * 35 + 10,
-                y: i * 35 + 15,
-                width: 25,
-                height: 25,
+            enemies.push({
+                x: j * canvas.width*0.08 + 10,
+                y: i * canvas.height*0.1 + 15,
+                width: canvas.width*0.08,
+                height: canvas.height*0.1,
                 speed: 2
             });
         }
     }
     
-    // Redraw elements on window resize
-     window.addEventListener('resize', () => {
-     canvas.width = window.innerWidth*0.75;
-     canvas.height = window.innerHeight*0.6;
-     player.x = canvas.width / 2
-     player.y = canvas.height - 50
-     for (let i = 0; i < 4; i++) {
-        for (let j = 0; j < 5; j++) {
-            chickens[j+i*5].x = j * 35 + 10;
-            chickens[j+i*5].y = i * 35 + 15;
-        }
-    }
-     draw();
-   });
+     window.addEventListener('resize', resize);
+
+
 
 }
-    // event listeners for user input
-    document.addEventListener('keydown', event => {
-        if (event.key === 'ArrowLeft') {
-            player.x -= player.speed;
-        } else if (event.key === 'ArrowRight') {
-            player.x += player.speed;
-        }  else if (event.key === 'ArrowUp') {
-            if (player.y >= canvas.height*0.6){
-                player.y -= player.speed;
-            }
-        } else if (event.key === 'ArrowDown') {
-            player.y += player.speed;
-        }
-         else if (event.key === ' ') {
-            blasts.push({
-            x: player.x + 12.5,
+
+function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = window.innerWidth*0.6 / initialWidth;
+    const scaleY = window.innerHeight*0.7 / initialHeight;
+    const scale = Math.min(scaleX, scaleY);
+  
+    canvas.style.transformOrigin = '0 0';
+    canvas.style.transform = `scale(${scale})`;
+  }
+
+function keyEventHandler(event){
+    if (event.key === key && event.type === "keydown") {
+        blasts.push({
+            x: player.x + player.width/2,
             y: player.y ,
-            width: 20,
-            height: 20,
-            speed: 10,
+            width: 0.07*canvas.width,
+            height: 0.07*canvas.height,
+            speed: 2,
             image: blastImage
             });
-        } });
+        goodBlast.currentTime = 0;
+        goodBlast.play();
+    }
+    keys[event.code] = event.type === "keydown";
+    event.preventDefault();
+}
 
+function movePlayer(){
+    if(keys.ArrowLeft){
+        player.x -= player.speed;
+    }
+    if(keys.ArrowRight){
+        player.x += player.speed;
+    }
+    if(keys.ArrowDown){
+        player.y += player.speed;
+    }
+    if(keys.ArrowUp){
+        if (player.y >= canvas.height*0.6){
+            player.y -= player.speed;
+        }
+    }
+}
 
 
 
@@ -120,58 +154,60 @@ function checkCollision(rect1, rect2) {
 
 
   function startTimer() {
+    count = 0;
     timerInterval = setInterval(() => {
+        if(count === 5 || count === 10 || count === 15 || count === 20){
+            bonus += 0.07
+        }
+        count++;
       timeLeft--;
       if (timeLeft === 0) {
-        clearInterval(timerInterval); // Stop the timer
-        gameover = true; // Set the game over flag
-        draw(); // Redraw the canvas to show the game over message
-      }
-    }, 1000); // Update the timer every 1 second
+        clearInterval(timerInterval);
+        timeout = true; 
+    }
+    }, 1000);
   }
   
-  
-  // update game objects
+ 
   function update() {
 
-    if(chickens.length == 0){
-        gameover = true
-        draw()
+    if(enemies.length == 0){
+        victory = true
+        window.cancelAnimationFrame(animation)
+        return 0
     }
 
-    // update player's position
     if (player.x < 0) {
       player.x = 0;
-    } else if (player.x > canvas.width - player.width) {
+    } else if (player.x  > canvas.width - player.width) {
       player.x = canvas.width - player.width;
     }
 
-    if (player.y >= canvas.height-50){
-        player.y = canvas.height-50
+    if (player.y >= canvas.height-canvas.height*0.25){
+        player.y = canvas.height-canvas.height*0.25
     }
   
-    // update chicken positions
-    for (let i = 0; i < chickens.length; i++) {
-      chickens[i].x += chickens[i].speed;
-  
-      if (chickens[i].x < 0 || chickens[i].x > canvas.width - chickens[i].width) {
-        chickens[i].speed = -chickens[i].speed;
+    for (let i = 0; i < enemies.length; i++) {
+      enemies[i].x += enemies[i].speed * bonus;
+      if (enemies[i].x < 0 || enemies[i].x > canvas.width - enemies[i].width) {
+        enemies[i].speed = -enemies[i].speed;
       }
     }
 
-    if (chickenBlasts.length == 0 || chickenBlasts[chickenBlasts.length-1].y >= canvas.height*0.75){
-        rand = Math.floor(Math.random() * chickens.length);
-        chickenBlasts.push({
-            x: chickens[rand].x + chickens[rand].width / 2,
-            y: chickens[rand].y + chickens[rand].height,
-            width: 20,
-            height: 40,
+    if (enemyBlasts.length == 0 || enemyBlasts[enemyBlasts.length-1].y >= canvas.height*0.75){
+        rand = Math.floor(Math.random() * enemies.length);
+        enemyBlasts.push({
+            x: enemies[rand].x + enemies[rand].width / 2,
+            y: enemies[rand].y + enemies[rand].height,
+            width: canvas.width*0.07,
+            height: canvas.height*0.07,
             speed: 2,
-            image: chickenBlastImage
+            image: enemyBlastImage
         });
+        badBlast.currentTime = 0;
+        badBlast.play()
     }
   
-    // update blast positions and remove blasts that have gone off screen
     for (let i = blasts.length - 1; i >= 0; i--) {
       blasts[i].y -= blasts[i].speed;
   
@@ -180,21 +216,20 @@ function checkCollision(rect1, rect2) {
       }
     }
 
-    // update chicken blasts positions and remove blasts that have gone off screen
-    for (let i = chickenBlasts.length - 1; i >= 0; i--) {
-        chickenBlasts[i].y += chickenBlasts[i].speed;
+    for (let i = enemyBlasts.length - 1; i >= 0; i--) {
+        enemyBlasts[i].y += enemyBlasts[i].speed * bonus;
 
-        if (chickenBlasts[i].y > canvas.height) {
-        chickenBlasts.splice(i, 1);
+        if (enemyBlasts[i].y > canvas.height) {
+        enemyBlasts.splice(i, 1);
         }
     }
   
-    // check for collisions between blasts and chickens
     for (let i = blasts.length - 1; i >= 0; i--) {
-      for (let j = chickens.length - 1; j >= 0; j--) {
-        if (checkCollision(blasts[i], chickens[j])) {
+      for (let j = enemies.length - 1; j >= 0; j--) {
+        if (checkCollision(blasts[i], enemies[j])) {
           blasts.splice(i, 1);
-          chickens.splice(j, 1);
+          enemies.splice(j, 1);
+          enemyDeath.play()
           if(j <= 4){
             score += 20
           } else if (j <= 9){
@@ -209,17 +244,16 @@ function checkCollision(rect1, rect2) {
       }
     }
 
-    // check for collisions between chicken blasts and player
-    for (let i = 0; i < chickenBlasts.length; i++) {
+    for (let i = 0; i < enemyBlasts.length; i++) {
         if (
-        chickenBlasts[i].x < player.x + player.width &&
-        chickenBlasts[i].x + chickenBlasts[i].width > player.x &&
-        chickenBlasts[i].y < player.y + player.height &&
-        chickenBlasts[i].y + chickenBlasts[i].height > player.y
+        enemyBlasts[i].x < player.x + player.width &&
+        enemyBlasts[i].x + enemyBlasts[i].width > player.x &&
+        enemyBlasts[i].y < player.y + player.height &&
+        enemyBlasts[i].y + enemyBlasts[i].height > player.y
         ) {
-        // remove the player and the blast
-        chickenBlasts.splice(i, 1);
+        enemyBlasts.splice(i, 1);
         lives--;
+        playerDeath.play()
         if (lives === 0) {
             gameover = true;
         } else {
@@ -232,74 +266,130 @@ function checkCollision(rect1, rect2) {
 
 
     function draw() {
-        // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-        // Draw the player
+        ctx.globalAlpha = 0.6
+        ctx.drawImage(bgImage,canvas.width-bgImage.width,canvas.height-bgImage.height)
+        ctx.globalAlpha = 1
+
         ctx.drawImage(playerImage, player.x * (canvas.width / initialWidth), player.y * (canvas.height / initialHeight), player.width * (canvas.width / initialWidth), player.height * (canvas.height / initialHeight));
-        // Draw the chickens
-        for (let i = 0; i < chickens.length; i++) {
-          ctx.drawImage(chickenImage, chickens[i].x * (canvas.width / initialWidth), chickens[i].y * (canvas.height / initialHeight), chickens[i].width * (canvas.width / initialWidth), chickens[i].height * (canvas.height / initialHeight));
+        for (let i = 0; i < enemies.length; i++) {
+          ctx.drawImage(enemyImage, enemies[i].x * (canvas.width / initialWidth), enemies[i].y * (canvas.height / initialHeight), enemies[i].width * (canvas.width / initialWidth), enemies[i].height * (canvas.height / initialHeight));
         }
       
-        // Draw the blasts
         for (let i = 0; i < blasts.length; i++) {
           ctx.drawImage(blastImage, blasts[i].x * (canvas.width / initialWidth), blasts[i].y * (canvas.height / initialHeight), blasts[i].width * (canvas.width / initialWidth), blasts[i].height * (canvas.height / initialHeight));
         }
       
-        // Draw the chicken blasts
-        for (let i = 0; i < chickenBlasts.length; i++) {
-          ctx.drawImage(chickenBlastImage, chickenBlasts[i].x * (canvas.width / initialWidth), chickenBlasts[i].y * (canvas.height / initialHeight), chickenBlasts[i].width * (canvas.width / initialWidth), chickenBlasts[i].height * (canvas.height / initialHeight));
+        for (let i = 0; i < enemyBlasts.length; i++) {
+          ctx.drawImage(enemyBlastImage, enemyBlasts[i].x * (canvas.width / initialWidth), enemyBlasts[i].y * (canvas.height / initialHeight), enemyBlasts[i].width * (canvas.width / initialWidth), enemyBlasts[i].height * (canvas.height / initialHeight));
         }
       
-        // Draw the score and lives
         ctx.font = "20px Magic School One";
         ctx.fillStyle = "white";
         ctx.fillText(`Score: ${score}`, 10, 30);
         ctx.fillText(`Time: ${timeLeft}`, 10, 60);
         ctx.fillText(`Lives: ${lives}`, canvas.width - 90, 30);
       
-        // Draw game over message
         if (gameover) {
-          ctx.font = "50px Arial";
+          ctx.font = "50px Magic School One";
           ctx.fillStyle = "red";
-          ctx.fillText("GAME OVER", canvas.width / 2 - 150, canvas.height / 2);
+          ctx.fillText("You Lost", canvas.width / 2 - 150, canvas.height / 2);
+          LB.push([gameCount, score, timeLeft, lives])
+          gameCount++;
           window.cancelAnimationFrame(animation)
+          bgMusic.loop = false;
+          bgMusic.pause()
+          displayBoards()
+        }
+
+        if (timeout) {
+            ctx.font = "50px Magic School One";
+            ctx.fillStyle = "yellow";
+            if (score >= 100){
+                ctx.fillText("Winner!", canvas.width / 2 - 150, canvas.height / 2);
+                LB.push([gameCount, score, timeLeft, lives])
+                gameCount++;
+            } else{
+                ctx.fillText(`you can do better, score: ${score}`, canvas.width / 2 - 150, canvas.height / 2);
+                LB.push([gameCount, score, timeLeft, lives])
+                gameCount++
+            }
+            window.cancelAnimationFrame(animation)
+            bgMusic.loop = false;
+            bgMusic.pause()
+            displayBoards()
+        }
+
+        if (victory) {
+            ctx.font = "50px Magic School One";
+            ctx.fillStyle = "green";
+            ctx.fillText("Champion!", canvas.width / 2 - 150, canvas.height / 2);
+            LB.push([gameCount, score, timeLeft, lives])
+            gameCount++;
+            window.cancelAnimationFrame(animation)
+            bgMusic.loop = false;
+            bgMusic.pause()
+            displayBoards()
+          }
+      }
+
+      function displayBoards(){
+        cancelAnimationFrame(animation)
+        ctx.font = "25px Magic School One";
+        ctx.fillStyle = "white";
+        ctx.fillText(`current game: ${gameCount-1}`,ctx.canvas.width /2 , 75 )
+        ctx.fillText('# \t \t \t Score\t \t \t Time Left \t \t \t Lives', ctx.canvas.width / 2, 50);
+        // Draw each row
+        for (let i = 0; i < LB.length; i++){
+            if (i == (gameCount-2)){
+                ctx.fillStyle = "yellow";
+            }
+            const num = LB[i][0]
+            const scor = LB[i][1]
+            const tLeft = LB[i][2]
+            const life = LB[i][3]
+            ctx.fillText(`${num}  \t \t \t ${scor}   \t \t  \t ${tLeft} \t \t   \t  \t \t \t ${life}`, ctx.canvas.width / 2, 100 + i * 25);
+            ctx.fillStyle = "white";
         }
       }
 
       function gameLoop() {
-        update();
-        draw();
-        animation = requestAnimationFrame(gameLoop);
+        if (gameover || victory || timeout){
+            window.cancelAnimationFrame(animation)
+        } else{
+            movePlayer();
+            update();
+            draw();
+            animation = requestAnimationFrame(gameLoop);
+        }
       }
 
 
       function startGame() {
-        
+        bgMusic.pause()
+        document.addEventListener("keydown",keyEventHandler);
+        document.addEventListener("keyup",keyEventHandler);
         window.cancelAnimationFrame(animation)
         clearInterval(timerInterval);
-        
-        // Reset game variables
-        timeLeft = 120;
+        timeLeft = timer
         score = 0;
         lives = 3;
         gameover = false;
+        timeout = false;
+        victory = false;
         
         setup()
-      
-        // Reset player position
+        bgMusic.loop = true;
+        bgMusic.volume = 0.2
+        bgMusic.play();
         player.x = canvas.width / 2;
         player.y = canvas.height - 50;
       
-        // Clear any existing blasts or chicken blasts
         blasts.splice(0, blasts.length);
-        chickenBlasts.splice(0, chickenBlasts.length);
+        enemyBlasts.splice(0, enemyBlasts.length);
       
-        // Start the timer
         startTimer();
       
-        // Start the game loop
         gameLoop();
       }
 

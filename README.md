@@ -1,1 +1,9 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10968122&assignment_repo_type=AssignmentRepo)
+# Hogwarts Invaders!
+[Try our Game!](https://web-development-environments-2023.github.io/assignment2-314978370_208646943/)
+### Testing User
+* username: p
+* password: testuser
+
+### About Us
+* Shay Milner <br /> 314978370 <br /> shaymil@post.bgu.ac.il
+* Yoad Ben David <br /> 208646943 <br /> yoadb@post.bgu.ac.il

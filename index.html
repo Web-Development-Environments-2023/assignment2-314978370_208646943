@@ -18,46 +18,105 @@
          <img src="images/favicon.png" alt="No Logo">
          <h1>Hogwarts Invaders</h1>
       </div>
-
+   
       <div id="menu1" class="menu">
-         <a href="#">Welcome</a>
-         <a href="#">Signup</a>
-         <a href="#">Login</a>
-         <a href="#">Configuration</a>
-         <a href="#">Play!</a>
-         <a href="#">About Me</a>
+         <a href="#" id="welcomeBtn">Welcome</a>
+         <a href="#" id="signupBtn">Signup</a>
+         <a href="#" id="loginBtn">Login</a>
+         <a href="#" id="configBtn">Configuration</a>
+         <a href="#" id="playBtn">Play!</a>
+         <a href="#" id="aboutBtn">About</a>
        </div>
+
+
       <div id="welcome" class="content">
-         <button>Signup!</button>
-         <button>Login!</button>
+         <img src="images/favicon.png" alt="No Logo">
+         <h1>This amazing game was built by
+            Shay Milner - 314978370 &  
+            Yoad Ben David - 208646943
+         </h1>
+         <h2>Our previous websites:</h2>
+         <h3>
+            <a href="https://web-development-environments-2023.github.io/314978370/">Shay Milner</a>
+            <p></p>
+            <a href="https://web-development-environments-2023.github.io/208646943/">Yoad Ben David</a>
+         </h3>
       </div>
       <div id="signup" class="content">
+         <h2>Signup Here!</h2>
          <form id="registration-form">
             <label for="username">Username:</label><br>
             <input type="text" id="username" name="username"><br>
             <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password">
+            <input type="password" id="password" name="password"><br>
             <label for="password_validation">Validate password:</label><br>
-            <input type="password_validation" id="password_validation" name="password_validation">
+            <input type="password_validation" id="password_validation" name="password_validation"><br>
             <label for="name">First name:</label><br>
             <input type="text" id="name" name="name"><br>
             <label for="last_name">Last name:</label><br>
             <input type="text" id="last_name" name="last_name"><br>
             <label for="email">Email:</label><br>
             <input type="email" id="email" name="email"><br>
+            <label for="date_of_birth">Birthdate:</label><br>
+            <input type="date" id="date_of_birth" name="date_of_birth"><br><br>
+            <input type="submit">
           </form>
       </div>
 
-      <audio id = "blockerSound" preload = "auto">
-         <source src = "sounds/blocker_hit.ogg" type = "audio/mpeg"></audio>
-      <audio id = "targetSound" preload = "auto">
-         <source src = "sounds/target_hit.ogg" type = "audio/mpeg"></audio>
-      <audio id = "cannonSound" preload = "auto">
-         <source src = "sounds/cannon_fire.ogg" type = "audio/mpeg"></audio>
-      <div id="canvas" class="content">
-         <canvas id = "theCanvas"></canvas> 
-         <p><input id = "startButton" type = "button" value = "Start Game"></p>
+      <div id="login" class="content">
+         <h2>Login Here!</h2>
+         <form id="login-form">
+            <label for="username-login">Username:</label><br>
+            <input type="text" id="username-login" name="username-login"><br>
+            <label for="password-login">Password:</label><br>
+            <input type="password" id="password-login" name="password-login"><br><br>
+            <input type="submit">
+         </form>
       </div>
+
+      <div id="config" class="content">
+         <h2>Configuration:</h2>
+         <form id="configuration-form">
+            <label for="time">Time (in seconds):</label><br>
+            <input type="number" value="120" min="120" placeholder="120" id="time" name="time"><br>
+            <label for="key">Choose key to shoot!</label><br>
+            <input type="text" id="key" maxlength="1" ><br>
+            <br>
+            <input type="submit">
+         </form>
+      </div>
+
+      <dialog id="modal">
+         <div id="outside">
+            <h1>About</h1>
+            <h2>We used jquery and were inspired by the cannon.js</h2>
+            <h2>We added the ability to smoothly move the character diaganolly</h2>
+            <p>Created by:
+               Shay milner & Yoad ben david
+            </p>
+            <h1 id="closeAbout">&times;</h1>
+      </div>
+      </dialog>
+
+      <audio id = "bgMusic" preload = "auto">
+         <source src = "sounds/bg.wav" type = "audio/mpeg"></audio>
+      <audio id = "playerDeath" preload = "auto">
+         <source src = "sounds/death.ogg" type = "audio/mpeg"></audio>
+      <audio id = "goodBlast" preload = "auto">
+         <source src = "sounds/good blast.wav" type = "audio/mpeg"></audio>
+      <audio id = "badBlast" preload = "auto">
+         <source src = "sounds/bad blast.wav" type = "audio/mpeg"></audio>
+      <audio id = "enemyDeath" preload = "auto">
+         <source src = "sounds/mutantdie.wav" type = "audio/mpeg"></audio>
+      <div id="canvas" class="content">
+         <input id = "startButton" type = "button" value = "Start Game" style="float: left";>
+         <canvas id = "theCanvas"></canvas> 
+      </div>
+
+      <div id="footer">
+         <p>This really cool game was built using html5, css and javascript by Shay and Yoad, You can contact us at shaymil@post.bgu.ac.il or Yoadb@post.bgu.ac.il</p>
+      </div>
+
    </body>
 </html>
 
